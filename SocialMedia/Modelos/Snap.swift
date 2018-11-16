@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+class Snap {
+    var imagenURL = ""
+    var descrip = ""
+    var form = ""
+    var id = ""
+    var imagenID = ""
+    var audioID = ""
+    var audioURL = ""
+}

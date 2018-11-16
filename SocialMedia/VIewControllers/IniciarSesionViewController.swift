@@ -19,18 +19,20 @@ class IniciarSesionViewController: UIViewController {
     }
     
     @IBAction func iniciarSesionTapped(_ sender: Any) {
-        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!, completion: {(user, error) in
+        FIRAuth.auth()?.signIn(withEmail: emailTextField.text!, password: passwordTextField.text!, completion: {(user, error) in
             
             print("Intentemos iniciar Sesion")
             if error != nil {
                 print("Tenemos el siguiente error \(String(describing: error))")
                 print("Intentemos crear un usuario")
-                Auth.auth().createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!, completion: {(user, error) in
+                FIRAuth.auth()?.createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!, completion: {(user, error) in
                     if error != nil {
                         print("Tenemos el siguiente error \(String(describing: error))")
                     } else {
                         print("El usuario fue creado exitosamente")
-                        Database.database().reference().child("usuarios").child(Auth.auth().currentUser!.uid).child("email").setValue(Auth.auth().currentUser?.email)
+                        FIRDatabase.database().reference().child("usuarios").child(user!.uid).child("email").setValue(user!.email)
+                        
+                        //Database.database().reference().child("usuarios").child(Auth.auth().currentUser!.uid).child("email").setValue(Auth.auth().currentUser?.email)
                         self.performSegue(withIdentifier: "iniciarsesionsegue", sender: nil)
                     }
                 })
